@@ -1,116 +1,25 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zalo Mini V3 Pro</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #ffffff;
-            font-family: Arial, sans-serif;
-        }
-        #app-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-        #warning-screen {
-            display: none;
-            width: 100%;
-            height: 100%;
-            background-color: #f8fafc;
-            color: #ef4444;
-            text-align: center;
-            padding-top: 20vh;
-        }
-        #warning-screen h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>App</title>
+  <style>
+    html,body{margin:0;height:100%;overflow:hidden}
+    iframe{width:100%;height:100%;border:0}
+  </style>
 </head>
 <body>
 
-    <div id="warning-screen">
-        <h1>⚠️ CẢNH BÁO BẢO MẬT</h1>
-        <p>Vui lòng tắt công cụ Developer Tools để tiếp tục sử dụng ứng dụng.</p>
-    </div>
+<script>
+  // Link thật được giấu trong JS (obfuscation nhẹ)
+  const part1 = "https://script.google.com";
+  const part2 = "/macros/s/AKfycbwZwEMwIuXwucriWXdUjMGDv8l0x_2gFU51sZIxo17vJUpT0QLdPdZNSbuxjkZ0kvJu";
+  const part3 = "/exec";
 
-    <script>
-        // 🔒 CHUỖI ĐÃ MÃ HÓA (Chuyển sang Base64 và Đảo ngược chuỗi để giấu link)
-        const _0xencoded = "==gM0knb0d3bSNGbPdDQTpXbUFUbWpXZHh1Y1d4dWNXbVdlR1p3YmNYeWJreEZNQTF6YmhaRzNyeGZZTUE=";
+  const url = part1 + part2 + part3;
 
-        function _0xdecode(str) {
-            try {
-                const reversed = atob(str);
-                return reversed.split("").reverse().join("");
-            } catch(e) {
-                return "";
-            }
-        }
+  document.write(`<iframe src="${url}"></iframe>`);
+</script>
 
-        // Tự động dựng iframe khi trang sẵn sàng
-        window.addEventListener('DOMContentLoaded', () => {
-            const realUrl = _0xdecode(_0xencoded);
-            if (!realUrl) return;
-
-            const ifrm = document.createElement("iframe");
-            ifrm.id = "app-frame";
-            ifrm.src = realUrl;
-            // Cấp đầy đủ các quyền tương tác như trang chủ độc lập
-            ifrm.setAttribute("allow", "autoplay; microphone; camera; clipboard-write; geolocation");
-            ifrm.setAttribute("sandbox", "allow-forms allow-modals allow-popups allow-scripts allow-same-origin");
-            
-            document.body.insertBefore(ifrm, document.getElementById('warning-screen'));
-        });
-
-        // 🚨 HÀM KHÓA HỆ THỐNG (Xóa sạch iframe khỏi bộ nhớ để giấu link tuyệt đối)
-        function lockSystem() {
-            const frame = document.getElementById('app-frame');
-            const warning = document.getElementById('warning-screen');
-            if (frame) frame.remove(); 
-            if (warning) warning.style.display = 'block';
-        }
-
-        // 1. CHẶN PHÍM TẮT VẬT LÝ (F12, Ctrl+Shift+I, J, C, U, S)
-        window.addEventListener('keydown', function (e) {
-            if (e.key === 'F12') { e.preventDefault(); lockSystem(); return false; }
-            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-                e.preventDefault(); lockSystem(); return false;
-            }
-            if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || e.keyCode === 85 || e.keyCode === 83)) {
-                e.preventDefault(); lockSystem(); return false;
-            }
-        });
-
-        // 2. CHẶN CHUỘT PHẢI TOÀN TRANG
-        window.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-
-        // 3. BẪY GETTER OBJECT (Giải pháp tối ưu cho Local - Không bao giờ nhận nhầm)
-        // Chỉ khi người dùng bật F12 lên, trình duyệt mới quét qua thuộc tính 'activate' và kích hoạt lệnh khóa
-        const checkDevTools = Object.create(null);
-        Object.defineProperty(checkDevTools, 'activate', {
-            get: function () {
-                lockSystem();
-                return '';
-            }
-        });
-
-        setInterval(function () {
-            // Thực hiện in lén một object rỗng, nếu DevTools đóng thì không sao
-            // Nếu DevTools mở, hàm getter sẽ bị kích hoạt ngay lập tức
-            console.log(checkDevTools);
-            console.clear(); // Xóa sạch log ngay lập tức để giữ bảng console luôn sạch sẽ
-        }, 1000);
-    </script>
 </body>
 </html>
